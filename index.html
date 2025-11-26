@@ -97,14 +97,29 @@
             0% { transform: scale(0.5); opacity: 0; }
             100% { transform: scale(1); opacity: 1; }
         }
+        
+        /* --- ESTILO DA BORDA NÁUTICA LISTRADA --- */
+        .nautical-stripes-border {
+            /* Espessura da borda */
+            border: 12px solid transparent; 
+            /* Gradiente para as listras Vermelho, Branco e Azul a 45 graus */
+            border-image: repeating-linear-gradient(
+                45deg,
+                #ff0000 0, #ff0000 12px,      /* Listra Vermelha */
+                #ffffff 12px, #ffffff 24px,    /* Listra Branca */
+                #0055aa 24px, #0055aa 36px     /* Listra Azul (um pouco mais claro que o fundo) */
+            ) 1; 
+            /* Ajustando o padding interno para acomodar a borda */
+            padding: 1rem; 
+        }
     </style>
 </head>
 <body class="min-h-screen flex flex-col">
     <main class="flex-grow flex items-center justify-center p-4">
-        <div class="max-w-4xl w-full bg-blue-900 shadow-2xl rounded-2xl p-8 md:p-12 text-center border-b-8 border-red-500">
+        <!-- O container principal agora usa a classe 'nautical-stripes-border' -->
+        <div class="max-w-4xl w-full bg-blue-900 shadow-2xl rounded-2xl p-8 md:p-12 text-center nautical-stripes-border">
             
-            <!-- Imagem do Logo (mantida a referência local) -->
-            <img src="Gemini_Generated_Image_jxfcrxjxfcrxjxfc.jpg" alt="Logo Fonseca's On Board 2026" class="mx-auto w-3/4 md:w-1/2 lg:w-1/3 mb-6">
+            <!-- A tag da imagem foi removida para evitar o erro de referência -->
             
             <h1 class="text-4xl md:text-6xl font-extrabold mb-4 text-white">
                 FONSECA'S ON BOARD 2026
@@ -143,9 +158,10 @@
                 </div>
             </div>
             
-            <!-- Botão Principal -->
-            <a href="#" target="_blank" class="inline-block px-8 py-3 bg-red-500 text-white font-bold rounded-full btn-neon hover:bg-red-600">
-                &#10148; Site Oficial do Navio
+            <!-- Botão Principal com o NOVO LINK e NOVO TEXTO -->
+            <a href="https://www.msccruzeiros.com.br/nossos-cruzeiros/navios/msc-seaview" target="_blank" 
+                class="inline-block px-8 py-3 bg-red-500 text-white font-bold rounded-full btn-neon hover:bg-red-600">
+                &#10148; Site Oficial do Navio (MSC Seaview)
             </a>
             <p class="text-sm text-gray-400 mt-2">
                 *A melhor viagem da sua vida !
@@ -250,25 +266,25 @@
 
         // 1. Curiosidades Detalhadas (para o card "Você Sabia?")
         const CURIOSIDADES_MSC = [
-            'O MSC Seaview foi lançado em junho de 2018 e pertence à **Classe Seaside, com design inovador projetado para se aproximar do mar.',
+            'O **MSC Seaview** foi lançado em junho de 2018 e pertence à **Classe Seaside**, com design inovador projetado para se aproximar do mar.',
             'Seu lema de design é "o navio que segue o sol" (The Ship that Follows the Sun), ideal para o clima quente da sua rota.',
-            'O navio possui impressionantes 323 metros de comprimento e cerca de 41 metros de boca (largura).',
-            'Sua altura é de aproximadamente 72 metros (o equivalente a um prédio de 23 andares) e ele tem 20 decks** (andares).',
-            'O MSC Seaview tem capacidade para mais de 5.300 passageiros e conta com uma tripulação de mais de 1.400 pessoas.',
-            'Um dos grandes destaques é o Waterfront Boardwalk, um calçadão no deck 8 que circunda 360 graus do navio com vista para o mar.',
-            'A aventura está garantida com duas tirolesas de 105 metros de comprimento que cruzam a piscina principal!',
-            'A Infinity Bridge (Ponte do Infinito) é uma passarela de vidro que oferece vistas espetaculares e emocionantes do oceano.',
-            'O navio tem seis piscinas e 13 jacuzzis. A Jungle Pool possui um teto retrátil para qualquer condição climática.',
-            'O Forest Aquaventure Park é um dos parques aquáticos mais interativos em um cruzeiro, cheio de escorregadores (tobogãs).',
-            'Para entretenimento seco, há uma **pista de boliche de tamanho oficial e um simulador de Fórmula 1.',
+            'O navio possui impressionantes **323 metros de comprimento** e cerca de 41 metros de boca (largura).',
+            'Sua altura é de aproximadamente **72 metros** (o equivalente a um prédio de 23 andares) e ele tem **20 decks** (andares).',
+            'O **MSC Seaview** tem capacidade para mais de **5.300 passageiros** e conta com uma tripulação de mais de 1.400 pessoas.',
+            'Um dos grandes destaques é o **Waterfront Boardwalk**, um calçadão no deck 8 que circunda 360 graus do navio com vista para o mar.',
+            'A aventura está garantida com **duas tirolesas de 105 metros** de comprimento que cruzam a piscina principal!',
+            'A **Infinity Bridge (Ponte do Infinito)** é uma passarela de vidro que oferece vistas espetaculares e emocionantes do oceano.',
+            'O navio tem **seis piscinas e 13 jacuzzis**. A **Jungle Pool** possui um teto retrátil para qualquer condição climática.',
+            'O **Forest Aquaventure Park** é um dos parques aquáticos mais interativos em um cruzeiro, cheio de escorregadores (tobogãs).',
+            'Para entretenimento seco, há uma **pista de boliche** de tamanho oficial e um **simulador de Fórmula 1**.',
             'A bordo, você encontra **10 restaurantes e 19 bares/lounges**. As refeições básicas no buffet e nos restaurantes principais estão incluídas.',
-            'O navio tem um restaurante especializado em culinária pan-asiática assinado pelo chef de renome mundial, Roy Yamaguchi.',
-            'Em cruzeiros no Brasil, o buffet se adapta para oferecer pratos típicos como feijoada e picadinho.',
-            'Você pode saborear doces na autêntica chocolateria e gelateria italiana da marca Venchi.',
-            'O Odeon Theatre (Teatro Odeon) tem capacidade para cerca de 900 a 1.000 espectadores, com espetáculos estilo Broadway todas as noites.',
-            'Existem seis clubes infantis exclusivos (Baby, Mini, Juniors, Young, Teens e Studio Doremi) em parceria com LEGO e Chicco.',
-            'O MSC Aurea Spaoferece massagens balinesas e tem uma área termal completa, incluindo uma sala climatizada com sal do Himalaia.',
-            'O Garage Club Bar (discoteca) é o local das festas temáticas que agitam a pista de dança até a madrugada.'
+            'O navio tem um restaurante especializado em culinária pan-asiática assinado pelo chef de renome mundial, **Roy Yamaguchi**.',
+            'Em cruzeiros no Brasil, o buffet se adapta para oferecer pratos típicos como **feijoada e picadinho**.',
+            'Você pode saborear doces na autêntica **chocolateria e gelateria italiana da marca Venchi**.',
+            'O **Odeon Theatre** (Teatro Odeon) tem capacidade para cerca de 900 a 1.000 espectadores, com espetáculos estilo Broadway todas as noites.',
+            'Existem **seis clubes infantis** exclusivos (Baby, Mini, Juniors, Young, Teens e Studio Doremi) em parceria com **LEGO e Chicco**.',
+            'O **MSC Aurea Spa** oferece massagens balinesas e tem uma área termal completa, incluindo uma sala climatizada com **sal do Himalaia**.',
+            'O **Garage Club Bar** (discoteca) é o local das festas temáticas que agitam a pista de dança até a madrugada.'
         ];
 
         // 2. Roteiro de Viagem (para o card "Roteiro de Viagem")
