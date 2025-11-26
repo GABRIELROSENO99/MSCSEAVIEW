@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>MSC Seaview: O Grande Dia - 07/03/2026</title>
+    <title>Fonseca's On Board 2026: A Grande Viagem!</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <style>
         /* Define a fonte Inter (padrão) e um fundo azul marinho náutico */
@@ -102,13 +102,18 @@
 <body class="min-h-screen flex flex-col">
     <main class="flex-grow flex items-center justify-center p-4">
         <div class="max-w-4xl w-full bg-blue-900 shadow-2xl rounded-2xl p-8 md:p-12 text-center border-b-8 border-red-500">
-          
+            
+            <!-- Imagem do Logo (mantida a referência local) -->
+            <img src="Gemini_Generated_Image_jxfcrxjxfcrxjxfc.jpg" alt="Logo Fonseca's On Board 2026" class="mx-auto w-3/4 md:w-1/2 lg:w-1/3 mb-6">
+            
             <h1 class="text-4xl md:text-6xl font-extrabold mb-4 text-white">
-                MSC Seaview - A Grande Viagem de Cruzeiro!
+                FONSECA'S ON BOARD 2026
             </h1>
             <p class="text-xl md:text-3xl font-semibold mb-8 text-red-500">
                 Partida em 07 de Março de 2026
             </p>
+            
+            <!-- Barra de Progresso -->
             <div class="mb-10 p-4 bg-blue-800 rounded-xl shadow-lg border border-white">
                 <p id="loading-text" class="text-xl md:text-2xl font-bold text-white mb-2">
                     LOADING...
@@ -117,8 +122,9 @@
                     <div id="progress-bar" class="h-4 rounded-full bg-red-500 transition-all duration-1000 ease-out" style="width: 0%"></div>
                 </div>
             </div>
+            
+            <!-- Contador Regressivo -->
             <div id="countdown" class="grid grid-cols-2 sm:grid-cols-4 gap-4 mb-10">
-              
                 <div class="p-4 bg-blue-800 rounded-xl shadow-lg border border-red-500">
                     <span id="days" class="text-5xl md:text-7xl font-bold text-white block">0</span>
                     <span class="text-sm uppercase font-medium mt-1 text-gray-200">Dias</span>
@@ -136,16 +142,21 @@
                     <span class="text-sm uppercase font-medium mt-1 text-gray-200">Segundos</span>
                 </div>
             </div>
-            <a href="https://www.msccruzeiros.com.br/nossos-cruzeiros/navios/msc-seaview" target="_blank" class="inline-block px-8 py-3 bg-red-500 text-white font-bold rounded-full btn-neon hover:bg-red-600">
-                &#10148; Site Oficial do MSC Seaview
+            
+            <!-- Botão Principal -->
+            <a href="#" target="_blank" class="inline-block px-8 py-3 bg-red-500 text-white font-bold rounded-full btn-neon hover:bg-red-600">
+                &#10148; Acesse o Roteiro Detalhado da Viagem
             </a>
             <p class="text-sm text-gray-400 mt-2">
-                *MSC Seaview - A melhor viagem da sua vida !
+                *A melhor viagem da sua vida !
             </p>
+            
             <hr class="my-10 border-blue-800">
+            
+            <!-- Curiosidades e Roteiro (Conteúdo Dinâmico) -->
             <div class="grid grid-cols-1 md:grid-cols-2 gap-8 text-left mb-10">
-              
-                <!-- Card VOCÊ SABIA? com botão de atualização manual -->
+                
+                <!-- Curiosidades -->
                 <div>
                     <div class="flex justify-between items-center mb-3">
                         <h2 class="text-2xl font-bold text-white flex items-center">
@@ -161,8 +172,8 @@
                         Preparando a primeira curiosidade...
                     </div>
                 </div>
-              
-                <!-- Card ROTEIRO DE VIAGEM (Antigo Destaques e Dicas) com botão de atualização manual -->
+                
+                <!-- Roteiro de Viagem -->
                 <div>
                     <div class="flex justify-between items-center mb-3">
                         <h2 id="roteiro-title" class="text-2xl font-bold text-white flex items-center">
@@ -179,15 +190,19 @@
                     </div>
                 </div>
             </div>
+            
             <hr class="my-10 border-blue-800">
+            
+            <!-- Jogo da Velha (Tic-Tac-Toe) -->
             <div class="w-full text-center p-4 bg-blue-800 rounded-xl shadow-2xl border border-red-500">
                 <h2 class="text-3xl font-bold text-white mb-6">
                     Quer passar o tempo até a viagem chegar?
                 </h2>
-              
+                
                 <p id="game-status" class="text-lg font-semibold mb-4 text-gray-200">
                     Sua vez (X)
                 </p>
+                
                 <div id="game-board">
                     <div class="cell" data-index="0"></div>
                     <div class="cell" data-index="1"></div>
@@ -199,31 +214,38 @@
                     <div class="cell" data-index="7"></div>
                     <div class="cell" data-index="8"></div>
                 </div>
+                
                 <button id="reset-button" class="mt-4 px-6 py-2 bg-red-500 text-white font-bold rounded-full btn-neon hover:bg-red-600">
                     Reiniciar Jogo
                 </button>
             </div>
-            </div>
+            
+        </div>
     </main>
+    
+    <!-- Modal de Desafio (Quando o Computador Vence) -->
     <div id="challenge-modal" class="challenge-modal">
         <div class="challenge-content">
             <h3 class="text-3xl font-extrabold text-red-500 mb-4">DERROTA! Desafio Ativado! 😈</h3>
             <p id="challenge-text" class="text-xl text-white mb-6 font-medium">
-                </p>
+                <!-- O desafio será inserido aqui pelo JS -->
+            </p>
             <button onclick="closeChallengeModal()" class="px-6 py-2 bg-white text-blue-900 font-bold rounded-full hover:bg-gray-200 transition">
                 Aceito o Desafio!
             </button>
         </div>
     </div>
+    
     <footer class="p-4 text-center text-sm text-gray-400 bg-blue-900 border-t border-red-500">
-        &copy; 2025-2026 Página Oficial da Viagem de Cruzeiro MSC Seaview. Mal podemos esperar!
+        &copy; 2025-2026 Página Oficial do Fonseca's On Board 2026. Mal podemos esperar!
     </footer>
+    
     <script>
         // --- CONSTANTES DE TEMPO ---
         const START_DATE = new Date("March 07, 2025 00:00:00").getTime();
         const TARGET_DATE = new Date("March 07, 2026 00:00:00").getTime();
         const TOTAL_DURATION = TARGET_DATE - START_DATE;
-      
+        
         // --- NOVO CONTEÚDO DINÂMICO (Ciclo Manual) ---
 
         // 1. Curiosidades Detalhadas (para o card "Você Sabia?")
@@ -325,7 +347,6 @@
         function updateRoteiro() {
             const contentElement = document.getElementById('roteiro-content');
             const titleElement = document.getElementById('roteiro-title');
-            const button = document.querySelector('#roteiro-content + button');
             
             contentElement.style.opacity = '0'; // Inicia a transição
 
@@ -352,11 +373,12 @@
                 }
             }, 300);
         }
-      
-        // --- FUNÇÕES DE TEMPO E PROGRESSO (Mantidas) ---
+        
+        // --- FUNÇÕES DE TEMPO E PROGRESSO ---
         function updateTimeDisplay() {
             const now = new Date().getTime();
             const distance = TARGET_DATE - now;
+            
             if (distance < 0) {
                 // Para o timer
                 clearInterval(countdownFunction);
@@ -366,35 +388,42 @@
                 document.getElementById("progress-bar").style.width = '100%';
                 return;
             }
+            
             // Cálculo do tempo para dias, horas, minutos e segundos
             const days = Math.floor(distance / (1000 * 60 * 60 * 24));
             const hours = Math.floor((distance % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
             const minutes = Math.floor((distance % (1000 * 60 * 60)) / (1000 * 60));
             const seconds = Math.floor((distance % (1000 * 60)) / 1000);
+
             // Atualiza os elementos no DOM
             document.getElementById("days").innerHTML = days;
             document.getElementById("hours").innerHTML = hours;
             document.getElementById("minutes").innerHTML = minutes;
             document.getElementById("seconds").innerHTML = seconds;
+
             // --- Barra de Progresso (%) ---
             const elapsedTime = now - START_DATE;
             let percentage = (elapsedTime / TOTAL_DURATION) * 100;
+
             if (percentage < 0) {
                 percentage = 0;
             } else if (percentage > 100) {
                 percentage = 100;
             }
+
             const percentText = Math.floor(percentage);
             document.getElementById("loading-text").textContent = `LOADING ${percentText}%`;
             document.getElementById("progress-bar").style.width = `${percentage}%`;
         }
-      
-        // --- JOGO DA VELHA (TIC-TAC-TOE) (Mantido) ---
+        
+        // --- JOGO DA VELHA (TIC-TAC-TOE) ---
+        
+        // Lista de desafios para quem perder (Jogador 'X')
         const CHALLENGES = [
             "Perdeu, agora você terá que dançar na festa da piscina do navio! 🕺",
             "Perdeu, te desafio a provar todos os sabores de sorvete no buffet! 🍨",
             "Perdeu, você terá que pedir uma bebida exótica para Adriana no bar do navio! 🍹",
-            "Perdeu, voce terá que provar a todos que nao tem vergonha de dancar em publico! 🌊",
+            "Perdeu, voce terá que provar a todos que nao tem vergonah de dancar em publico! 🌊",
             "Perdeu, voce terá que acordar todo dia as 06 da manha para ver o nascer do sol no deck! 🌅",
             "Perdeu, você terá que cantar uma música no karaokê a bordo! 🎤",
             "Perdeu, faça uma pose engraçada e tire uma foto com o host do navio 😂",
@@ -402,6 +431,7 @@
             "Perdeu, troque de chapéu com alguém da família por uma hora no deck. 🎩",
             "Perdeu, peça um prato exótico no restaurante que você nunca comeu antes. Se for bom, divida com o Alexandre! 🍽️",
         ];
+        
         let board = ["", "", "", "", "", "", "", "", ""];
         let currentPlayer = "X"; 
         let gameActive = true;
@@ -409,11 +439,18 @@
         const cells = document.querySelectorAll(".cell");
         const challengeModal = document.getElementById("challenge-modal");
         const challengeText = document.getElementById("challenge-text");
+        
+        // Condições de vitória
         const winningConditions = [
             [0, 1, 2], [3, 4, 5], [6, 7, 8], 
             [0, 3, 6], [1, 4, 7], [2, 5, 8], 
             [0, 4, 8], [2, 4, 6] 
         ];
+
+        /**
+         * Verifica se há um vencedor.
+         * @returns {boolean} True se houver um vencedor, false caso contrário.
+         */
         function checkWin() {
             for (let i = 0; i < winningConditions.length; i++) {
                 const [a, b, c] = winningConditions[i];
@@ -424,12 +461,27 @@
             }
             return false;
         }
+
+        /**
+         * Verifica se houve empate.
+         * @returns {boolean} True se for empate, false caso contrário.
+         */
         function checkDraw() {
             return !board.includes("");
         }
+
+        /**
+         * Atualiza o status do jogo na tela.
+         * @param {string} message A mensagem a ser exibida.
+         */
         function updateStatus(message) {
             statusDisplay.textContent = message;
         }
+
+        /**
+         * Exibe o modal de desafio se o computador (O) vencer.
+         * @param {string} winner O vencedor da rodada ('X' ou 'O').
+         */
         function showChallenge(winner) {
             if (winner === "O") {
                 const randomIndex = Math.floor(Math.random() * CHALLENGES.length);
@@ -437,86 +489,133 @@
                 challengeModal.style.display = 'flex';
             }
         }
+
+        /**
+         * Fecha o modal de desafio.
+         */
         window.closeChallengeModal = function() {
             challengeModal.style.display = 'none';
         }
+
+        /**
+         * Lógica de movimento do computador (IA simples).
+         */
         function computerMove() {
             if (!gameActive) return;
+
+            // 1. Tentar vencer (criar 3 em linha)
             for (let i = 0; i < winningConditions.length; i++) {
                 const [a, b, c] = winningConditions[i];
                 if (board[a] === "O" && board[b] === "O" && board[c] === "") return playMove(c);
                 if (board[a] === "O" && board[c] === "O" && board[b] === "") return playMove(b);
                 if (board[b] === "O" && board[c] === "O" && board[a] === "") return playMove(a);
             }
+
+            // 2. Tentar bloquear o jogador (impedir 3 em linha de 'X')
             for (let i = 0; i < winningConditions.length; i++) {
                 const [a, b, c] = winningConditions[i];
                 if (board[a] === "X" && board[b] === "X" && board[c] === "") return playMove(c);
                 if (board[a] === "X" && board[c] === "X" && board[b] === "") return playMove(b);
                 if (board[b] === "X" && board[c] === "X" && board[a] === "") return playMove(a);
             }
+
+            // 3. Pegar o centro, se disponível
             if (board[4] === "") return playMove(4);
+
+            // 4. Pegar um canto, se disponível
             const corners = [0, 2, 6, 8].filter(index => board[index] === "");
             if (corners.length > 0) return playMove(corners[Math.floor(Math.random() * corners.length)]);
+
+            // 5. Qualquer movimento aleatório disponível
             const availableMoves = board.map((val, index) => val === "" ? index : null).filter(val => val !== null);
             if (availableMoves.length > 0) {
                 const moveIndex = availableMoves[Math.floor(Math.random() * availableMoves.length)];
                 return playMove(moveIndex);
             }
         }
+
+        /**
+         * Executa um movimento no tabuleiro.
+         * @param {number} index Índice da célula clicada/escolhida.
+         */
         function playMove(index) {
             if (board[index] !== "" || !gameActive) return;
+
             board[index] = currentPlayer;
             cells[index].textContent = currentPlayer;
             cells[index].classList.add(currentPlayer.toLowerCase());
+
             if (checkWin()) {
                 updateStatus(currentPlayer === "X" ? "VOCÊ VENCEU! 🎉" : "O COMPUTADOR VENCEU! 🤖");
-                showChallenge(currentPlayer);
+                showChallenge(currentPlayer); // Mostra desafio se 'O' (computador) vencer
                 return;
             }
+
             if (checkDraw()) {
                 updateStatus("EMPATE! 🤝");
                 gameActive = false;
                 return;
             }
+
+            // Passa o turno
             currentPlayer = currentPlayer === "X" ? "O" : "X";
             updateStatus(currentPlayer === "X" ? "Sua vez (X)" : "Vez do Computador (O)...");
+
+            // Se for a vez do computador, executa o movimento após um pequeno atraso
             if (currentPlayer === "O") {
                 setTimeout(computerMove, 500);
             }
         }
+
+        /**
+         * Manipula o clique do jogador (X) na célula.
+         * @param {Event} event O evento de clique.
+         */
         function handleCellClick(event) {
             const clickedCellIndex = parseInt(event.target.getAttribute('data-index'));
+
+            // Só permite cliques se o jogo estiver ativo e for a vez do jogador 'X'
             if (board[clickedCellIndex] !== "" || !gameActive || currentPlayer === "O") {
                 return;
             }
+
             playMove(clickedCellIndex);
         }
+
+        /**
+         * Reinicia o jogo.
+         */
         function resetGame() {
             board = ["", "", "", "", "", "", "", "", ""];
             gameActive = true;
             currentPlayer = "X";
             updateStatus("Sua vez (X)");
+            
             cells.forEach(cell => {
                 cell.textContent = "";
                 cell.classList.remove("x", "o");
             });
+
             closeChallengeModal();
         }
 
         // --- INICIALIZAÇÃO ---
         document.addEventListener('DOMContentLoaded', () => {
+             // Inicia a exibição do tempo e barra de progresso
              updateTimeDisplay(); 
+
+             // Adiciona listeners para o jogo
              cells.forEach(cell => cell.addEventListener('click', handleCellClick));
              document.getElementById("reset-button").addEventListener('click', resetGame);
              
-             // Inicializa o conteúdo manual
+             // Inicializa o conteúdo manual (Curiosidades e Roteiro)
              updateCuriosidade();
              updateRoteiro();
 
              resetGame(); // Inicializa o jogo
         });
         
-        // Inicia a contagem regressiva
+        // Inicia a contagem regressiva a cada segundo
         const countdownFunction = setInterval(updateTimeDisplay, 1000); 
     </script>
 </body>
