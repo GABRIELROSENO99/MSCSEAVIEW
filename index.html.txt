@@ -1,0 +1,552 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Resort La Torre: O Grande Dia - 09/11/2026</title>
+    <!-- Carrega o Tailwind CSS para estilização moderna e responsiva -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <style>
+        /* Define a fonte Inter (padrão) e um fundo escuro "neon" */
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: #0f172a; /* Fundo Azul Escuro (Slate 900) */
+            color: #e2e8f0; /* Texto Claro */
+        }
+        /* Efeito de hover e sombra neon para o botão principal */
+        .btn-neon {
+            transition: all 0.3s ease;
+            box-shadow: 0 0 15px #f054a3; /* Sombra Neon Pink */
+        }
+        .btn-neon:hover {
+            transform: scale(1.03);
+            box-shadow: 0 0 25px #f054a3, 0 0 35px #f054a3; /* Sombra mais intensa */
+            background-color: #d84594;
+        }
+        /* Estilo para a caixa de curiosidades */
+        .curiosity-box {
+            min-height: 150px; /* Garante que a caixa não encolha muito */
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            text-align: center;
+        }
+
+        /* --- Estilos do Jogo da Velha --- */
+        #game-board {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            grid-template-rows: repeat(3, 1fr);
+            width: 100%;
+            max-width: 300px;
+            height: 300px;
+            margin: 20px auto;
+            border: 4px solid #f054a3;
+            border-radius: 10px;
+            overflow: hidden;
+        }
+        .cell {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 3rem;
+            font-weight: bold;
+            color: #fff;
+            background-color: #1e293b; /* Slate 800 */
+            border: 2px solid #f054a3;
+            cursor: pointer;
+            transition: background-color 0.2s;
+        }
+        .cell:hover:not(.x):not(.o) {
+            background-color: #334155; /* Slate 700 */
+        }
+        .cell.x {
+            color: #06b6d4; /* Cyan 500 */
+        }
+        .cell.o {
+            color: #f054a3; /* Pink 500 */
+        }
+
+        /* Estilo para a mensagem de desafio (modal customizado) */
+        .challenge-modal {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.8);
+            display: none;
+            align-items: center;
+            justify-content: center;
+            z-index: 1000;
+        }
+        .challenge-content {
+            background-color: #0f172a;
+            border: 4px solid #f054a3;
+            border-radius: 15px;
+            padding: 30px;
+            max-width: 90%;
+            text-align: center;
+            animation: bounceIn 0.5s ease-out;
+        }
+        @keyframes bounceIn {
+            0% { transform: scale(0.5); opacity: 0; }
+            100% { transform: scale(1); opacity: 1; }
+        }
+
+    </style>
+</head>
+<body class="min-h-screen flex flex-col">
+
+    <!-- Seção Principal e Contagem Regressiva -->
+    <main class="flex-grow flex items-center justify-center p-4">
+        <div class="max-w-4xl w-full bg-slate-800 shadow-2xl rounded-2xl p-8 md:p-12 text-center border-b-8 border-pink-500">
+            
+            <!-- Título Principal com estilo neon -->
+            <h1 class="text-4xl md:text-6xl font-extrabold mb-4 text-cyan-400">
+                Resort La Torre - A Grande Viagem!
+            </h1>
+            <p class="text-xl md:text-3xl font-semibold mb-8 text-pink-500">
+                Porto Seguro, Bahia - 09 de Novembro de 2026
+            </p>
+
+            <!-- Barra de Progresso e Porcentagem -->
+            <div class="mb-10 p-4 bg-slate-700 rounded-xl shadow-lg border border-cyan-400">
+                <p id="loading-text" class="text-xl md:text-2xl font-bold text-cyan-400 mb-2">
+                    LOADING...
+                </p>
+                <div class="w-full bg-slate-900 rounded-full h-4 relative">
+                    <div id="progress-bar" class="h-4 rounded-full bg-pink-500 transition-all duration-1000 ease-out" style="width: 0%"></div>
+                </div>
+            </div>
+
+            <!-- Contagem Regressiva (Elementos com fundo escuro e texto neon) -->
+            <div id="countdown" class="grid grid-cols-2 sm:grid-cols-4 gap-4 mb-10">
+                
+                <div class="p-4 bg-slate-700 rounded-xl shadow-lg border border-pink-500">
+                    <span id="days" class="text-5xl md:text-7xl font-bold text-cyan-400 block">0</span>
+                    <span class="text-sm uppercase font-medium mt-1 text-white">Dias</span>
+                </div>
+
+                <div class="p-4 bg-slate-700 rounded-xl shadow-lg border border-pink-500">
+                    <span id="hours" class="text-5xl md:text-7xl font-bold text-cyan-400 block">0</span>
+                    <span class="text-sm uppercase font-medium mt-1 text-white">Horas</span>
+                </div>
+
+                <div class="p-4 bg-slate-700 rounded-xl shadow-lg border border-pink-500">
+                    <span id="minutes" class="text-5xl md:text-7xl font-bold text-cyan-400 block">0</span>
+                    <span class="text-sm uppercase font-medium mt-1 text-white">Minutos</span>
+                </div>
+
+                <div class="p-4 bg-slate-700 rounded-xl shadow-lg border border-pink-500">
+                    <span id="seconds" class="text-5xl md:text-7xl font-bold text-cyan-400 block">0</span>
+                    <span class="text-sm uppercase font-medium mt-1 text-white">Segundos</span>
+                </div>
+            </div>
+
+            <!-- Botão do Resort com estilo neon -->
+            <a href="https://www.resortlatorre.com.br/" target="_blank" class="inline-block px-8 py-3 bg-pink-500 text-white font-bold rounded-full btn-neon hover:bg-pink-600">
+                &#10148; Site Oficial do Resort La Torre (All Inclusive)
+            </a>
+            <p class="text-sm text-gray-400 mt-2">
+                *La Torre é o 5º melhor Resort all inclusive da América do Sul
+
+            </p>
+
+            <hr class="my-10 border-slate-700">
+
+            <!-- Seção de Curiosidades e Dicas (Novas Seções Dinâmicas) -->
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-8 text-left mb-10">
+                
+                <!-- Nova Seção: Você Sabia? (Curiosidades) -->
+                <div>
+                    <h2 class="text-2xl font-bold text-cyan-400 mb-3 flex items-center">
+                        <!-- Ícone de Lâmpada (Ideia) com cor neon -->
+                        <svg class="w-6 h-6 mr-2 text-pink-500" fill="currentColor" viewBox="0 0 20 20"><path fill-rule="evenodd" d="M11.696 17.51a1 1 0 001.317.095l4-3a1 1 0 00.095-1.317l-3-4a1 1 0 10-1.624 1.258L14.28 12H7a1 1 0 000 2h7.28l-2.091 2.755a1 1 0 00.107 1.455zM6 8a2 2 0 100-4 2 2 0 000 4z" clip-rule="evenodd"></path></svg>
+                        Você Sabia? 🤔
+                    </h2>
+                    <div id="curiosity-content" class="curiosity-box p-4 bg-slate-700 rounded-xl shadow-inner border border-cyan-400 text-lg text-white">
+                        <!-- Conteúdo da Curiosidade será inserido aqui pelo JS -->
+                        Preparando a primeira curiosidade...
+                    </div>
+                </div>
+                
+                <!-- Seção Atualizada: Destaques e Dicas do Resort -->
+                <div>
+                    <h2 class="text-2xl font-bold text-cyan-400 mb-3 flex items-center">
+                        <!-- Ícone de Foco/Destaque com cor neon -->
+                        <svg class="w-6 h-6 mr-2 text-pink-500" fill="currentColor" viewBox="0 0 20 20"><path fill-rule="evenodd" d="M18 10a8 8 0 11-16 0 8 8 0 0116 0zm-8-3a1 1 0 00-.867.5 1 1 0 11-1.731-1A3 3 0 0113 8a3.001 3.001 0 01-2.035 2.836A1 1 0 009 11v1a1 1 0 102 0v-1a1 1 0 00-1-1.836h-.001z" clip-rule="evenodd"></path></svg>
+                        Destaques e Dicas La Torre
+                    </h2>
+                    <div id="resort-tip-content" class="curiosity-box p-4 bg-slate-700 rounded-xl shadow-inner border border-cyan-400 text-base text-gray-300">
+                        <!-- Conteúdo da Dica será inserido aqui pelo JS -->
+                        Buscando a primeira dica do resort...
+                    </div>
+                </div>
+            </div>
+
+            <hr class="my-10 border-slate-700">
+
+            <!-- NOVO: Seção do Jogo da Velha com Desafios -->
+            <div class="w-full text-center p-4 bg-slate-700 rounded-xl shadow-2xl border border-pink-500">
+                <h2 class="text-3xl font-bold text-cyan-400 mb-6">
+                    Quer passar o tempo até a viagem chegar?
+                </h2>
+                
+                <p id="game-status" class="text-lg font-semibold mb-4 text-white">
+                    Sua vez (X)
+                </p>
+
+                <!-- Board do Jogo da Velha -->
+                <div id="game-board">
+                    <div class="cell" data-index="0"></div>
+                    <div class="cell" data-index="1"></div>
+                    <div class="cell" data-index="2"></div>
+                    <div class="cell" data-index="3"></div>
+                    <div class="cell" data-index="4"></div>
+                    <div class="cell" data-index="5"></div>
+                    <div class="cell" data-index="6"></div>
+                    <div class="cell" data-index="7"></div>
+                    <div class="cell" data-index="8"></div>
+                </div>
+
+                <!-- Botão de Reiniciar -->
+                <button id="reset-button" class="mt-4 px-6 py-2 bg-pink-500 text-white font-bold rounded-full btn-neon hover:bg-pink-600">
+                    Reiniciar Jogo
+                </button>
+            </div>
+            <!-- FIM DO NOVO BLOCO DO JOGO -->
+
+        </div>
+    </main>
+
+    <!-- Modal de Desafio (Quando o Jogador perde) -->
+    <div id="challenge-modal" class="challenge-modal">
+        <div class="challenge-content">
+            <h3 class="text-3xl font-extrabold text-pink-500 mb-4">DERROTA! Desafio Ativado! 😈</h3>
+            <p id="challenge-text" class="text-xl text-white mb-6 font-medium">
+                <!-- O desafio será inserido aqui -->
+            </p>
+            <button onclick="closeChallengeModal()" class="px-6 py-2 bg-cyan-500 text-white font-bold rounded-full hover:bg-cyan-600 transition">
+                Aceito o Desafio!
+            </button>
+        </div>
+    </div>
+
+    <!-- Rodapé -->
+    <footer class="p-4 text-center text-sm text-gray-400 bg-slate-900 border-t border-pink-500">
+        &copy; 2025-2026 Página Oficial da Viagem ao Resort La Torre. Mal podemos esperar!
+    </footer>
+
+    <!-- Script JavaScript para a Contagem Regressiva e Conteúdo Dinâmico -->
+    <script>
+        // --- CONSTANTES DE TEMPO (Mantidas) ---
+        // Ponto de partida fixo para calcular o progresso (0%): 25 de Novembro de 2025
+        const START_DATE = new Date("November 25, 2025 00:00:00").getTime(); 
+        // Data alvo (100%): 09 de Novembro de 2026
+        const TARGET_DATE = new Date("November 09, 2026 00:00:00").getTime();
+        const TOTAL_DURATION = TARGET_DATE - START_DATE;
+        
+        // --- CONTEÚDO DINÂMICO (Mantidas) ---
+
+        const CURIOSITIES = [
+            '**Porto Seguro** foi o local onde a frota de Pedro Álvares Cabral aportou pela primeira vez no Brasil, em 1500, marcando o início da nossa história!',
+            'O nome **Bahia** significa "baía" em português arcaico, referindo-se à grande Baía de Todos-os-Santos.',
+            'A **Praia do Mutá**, onde o Resort La Torre está localizado, é famosa pelas suas piscinas naturais na maré baixa, ideais para mergulho e observação de peixes.',
+            'O **Verão na Bahia** é tipicamente longo, com temperaturas elevadas e sol forte. Perfeito para o All Inclusive!',
+            'O **Passarela do Álcool**, em Porto Seguro, é um ponto turístico famoso, repleto de bares, restaurantes e lojas de artesanato.',
+            'A **temperatura média anual** em Porto Seguro é de cerca de 24°C, garantindo calor o ano inteiro, especialmente em Novembro.',
+            'O famoso coquetel **Bombeirinho** nasceu em Porto Seguro. Ele leva vodka, leite condensado, guaraná em pó, canela e é uma parada obrigatória!',
+            'Porto Seguro faz parte da chamada **Costa do Descobrimento**, que abrange lindas praias e recifes de coral.',
+            'A **cultura indígena Pataxó** é muito presente na região, e eventos como o Ritual da Lua Cheia no resort celebram essa tradição.',
+            'Você sabia que o mar da Bahia possui o **maior banco de recifes de coral** do Atlântico Sul? É um paraíso marinho!',
+            'O distrito de **Arraial d\'Ajuda** e **Trancoso**, com suas igrejas históricas e praias paradisíacas, ficam bem próximos e valem a visita!',
+            '**Acarajé e Vatapá** são patrimônios gastronômicos da Bahia. A culinária local é uma mistura rica de sabores africanos e portugueses.',
+            'A culinária baiana faz uso intenso do **dendê**, um óleo avermelhado extraído de uma palmeira, que dá o sabor característico aos pratos.',
+            'O **Parque Nacional do Monte Pascoal**, que pode ser visto de longe, é o marco inicial da terra avistada pelos portugueses.',
+            'O mês de **Novembro** em Porto Seguro marca o início da alta temporada, com clima agradável e pouca chuva.',
+            'A Bahia é o estado com a **maior costa litorânea** do Brasil, oferecendo uma variedade infinita de praias.',
+            'A palavra **"axé"**, tão ligada à Bahia, significa energia positiva ou força vital na cultura Iorubá.',
+            'O Resort La Torre é considerado **Pet Friendly**, o que é uma curiosidade em resorts All Inclusive de grande porte!',
+            'A região é um excelente ponto para observação de **baleias jubarte** entre Julho e Outubro (pena que nossa viagem é em Novembro, mas a água estará quentinha!).',
+            'Porto Seguro possui um aeroporto internacional (BPS), facilitando muito o acesso de turistas de todo o Brasil e do mundo.',
+            'O sol na Bahia é o segundo mais forte do Brasil. Use e abuse do protetor solar para aproveitar ao máximo!',
+        ];
+
+        const RESORT_TIPS = [
+            '**OMAKASE - GASTRONOMIA JAPONESA:** Inspirado na rica tradição japonesa, o Omakase traz ao La Torre uma verdadeira imersão na gastronomia oriental dentro do sistema All Inclusive. Seu nome, que significa “Eu confio em você”, reflete o espírito de um menu autoral criado com ingredientes frescos e sazonais, preparados pelo nosso chef, especialmente para o seu paladar. Tudo em um ambiente acolhedor, com iluminação suave, atmosfera intimista e detalhes minimalistas.',
+            '**GINO GASTRONOMIA - CHARME À BEIRA-MAR:** Os charmosos espaços gastronômicos existentes no La Torre trazem, em sua maioria, uma atmosfera rústica, com iluminação intimista e agradável. Mesmo em ambientes com estrutura mais fechada, busca-se manter o contato com a natureza, sempre respeitando as referências arquitetônicas da região, e levando ao hóspede uma experiência completa, unindo arquitetura e gastronomia.',
+            '**OBSERVAÇÃO ASTRONÔMICA (Em Novembro!):** Que tal viver a experiência de observar astros e estrelas com equipamentos profissionais? No mês de Novembro as noites no Park Lounge, que já são encantadoras sob a luz das estrelas e do luar, vão ficar ainda mais especiais com os diversos telescópios disponíveis para observação. Uma atração perfeita para a nossa viagem!',
+            '**CLUBE DE PRAIA LA TORRE - EXCLUSIVIDADE:** Seu acesso é exclusivo ao  Clube de Praia privativo, com infraestrutura premium, serviços de bar e restaurante na areia, e cadeiras confortáveis para um relaxamento sofisticado na Praia do Mutá.',
+            '**ALL INCLUSIVE PREMIUM:** No Resort, sua experiência All Inclusive é completa e integrada: acomodações, gastronomia de alta qualidade (com 5 refeições principais e lanches) e lazer, sem precisar se preocupar com a carteira. Aproveite tudo, sem moderação!',
+            '**O LA TORRE É PET FRIENDLY:** Se você está planejando levar seu animal de estimação, saiba que o resort é Pet Friendly! Informe-se sobre as regras e taxas específicas para garantir que você e seus pets desfrutem da experiência completa e harmoniosa.',
+            '**SPA: MOMENTO RELAX:** O espaço de Spa do Resort La Torre oferece serviços e cuidados especiais em um ambiente projetado para uma experiência relaxante, personalizada e com muito conforto. Não deixe de agendar uma massagem para recarregar as energias.',
+            '**SUSTENTABILIDADE:** O resort tem um forte compromisso com a sustentabilidade e boas práticas em ESG, preservando o meio ambiente da Costa do Descobrimento e beneficiando a comunidade local. Você estará em um local que se preocupa com o futuro!',
+            '**RITUAL DA LUA CHEIA:** A praia do Mutá te convida para uma experiência mágica sob a luz do luar, com apresentação de indígenas Pataxós, mesas de frutas, drinks e muita música. Um evento cultural e lindo que pode acontecer durante a nossa estadia. Fique de olho na programação!',
+        ];
+
+        // --- FUNÇÕES DE CONTEÚDO DINÂMICO (Mantidas) ---
+        function getDynamicItem(array) {
+            const intervalMs = 43200000; 
+            const index = Math.floor(Date.now() / intervalMs) % array.length;
+            return array[index];
+        }
+
+        function updateDynamicContent() {
+            document.getElementById("curiosity-content").innerHTML = getDynamicItem(CURIOSITIES);
+            document.getElementById("resort-tip-content").innerHTML = getDynamicItem(RESORT_TIPS);
+        }
+
+        function updateTimeDisplay() {
+            const now = new Date().getTime();
+            const distance = TARGET_DATE - now;
+
+            // --- 1. Contagem Regressiva e Lógica de Fim ---
+            if (distance < 0) {
+                clearInterval(countdownFunction);
+                document.getElementById("countdown").innerHTML = '<div class="text-4xl font-extrabold text-pink-500 col-span-4">É HOJE! A VIAGEM COMEÇOU!</div>';
+                
+                // Finaliza a barra de progresso
+                document.getElementById("loading-text").textContent = 'CARREGAMENTO CONCLUÍDO 100%';
+                document.getElementById("progress-bar").style.width = '100%';
+
+                return;
+            }
+
+            // Cálculo do tempo para dias, horas, minutos e segundos
+            const days = Math.floor(distance / (1000 * 60 * 60 * 24));
+            const hours = Math.floor((distance % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+            const minutes = Math.floor((distance % (1000 * 60 * 60)) / (1000 * 60));
+            const seconds = Math.floor((distance % (1000 * 60)) / 1000);
+
+            // Atualiza os elementos no DOM
+            document.getElementById("days").innerHTML = days;
+            document.getElementById("hours").innerHTML = hours;
+            document.getElementById("minutes").innerHTML = minutes;
+            document.getElementById("seconds").innerHTML = seconds;
+
+            // --- 2. Barra de Progresso (%) ---
+            const elapsedTime = now - START_DATE;
+            let percentage = (elapsedTime / TOTAL_DURATION) * 100;
+            
+            if (percentage < 0) {
+                percentage = 0;
+            } else if (percentage > 100) {
+                percentage = 100;
+            }
+            
+            const percentText = Math.floor(percentage);
+            document.getElementById("loading-text").textContent = `LOADING ${percentText}%`;
+            document.getElementById("progress-bar").style.width = `${percentage}%`;
+        }
+
+        // --- JOGO DA VELHA (TIC-TAC-TOE) ---
+
+        // Desafios que aparecem quando o jogador (X) perde para o computador (O)
+        const CHALLENGES = [
+            "Perdeu, agora voce terá que pular na piscina de noite! 🌙 (Brincadeira, faça isso com segurança e se o resort permitir!)",
+            "Perdeu, te desafio a comer um picolé inteiro em 1 minuto! 🥶",
+            "Perdeu, você terá que pegar uma bebida para Rebecca! 🍹",
+            "Perdeu, voce terá que provar a todos que nao tem chulé !",
+            "Perdeu, voce terá que acordar todo dia as 06 da manha para ver o nascer do sol! 🌅",
+            "Perdeu, você terá que cantar uma música bem brega no karaokê do resort! 🎤",
+            "Perdeu, faça uma pose engraçada e tire uma foto com a estátua mais estranha que encontrar! 😂",
+            "Perdeu, diga um elogio sincero a um estranho na praia! 😉",
+            "Perdeu, troque de boné/chapéu com alguém da família por uma hora. 🎩",
+            "Perdeu, peça um prato no restaurante que você nunca comeu antes. Se for ruim, tem que comer tudo! Se for bom, terá que dividir com o Rafael 🍽️",
+        ];
+
+        let board = ["", "", "", "", "", "", "", "", ""];
+        let currentPlayer = "X"; // Jogador é X, Computador é O
+        let gameActive = true;
+        const statusDisplay = document.getElementById("game-status");
+        const cells = document.querySelectorAll(".cell");
+        const challengeModal = document.getElementById("challenge-modal");
+        const challengeText = document.getElementById("challenge-text");
+        
+        // Combinações de vitória
+        const winningConditions = [
+            [0, 1, 2], [3, 4, 5], [6, 7, 8], // Linhas
+            [0, 3, 6], [1, 4, 7], [2, 5, 8], // Colunas
+            [0, 4, 8], [2, 4, 6]             // Diagonais
+        ];
+
+        /**
+         * Verifica se as condições de vitória foram alcançadas
+         * @returns {boolean} True se houver um vencedor, false caso contrário.
+         */
+        function checkWin() {
+            for (let i = 0; i < winningConditions.length; i++) {
+                const [a, b, c] = winningConditions[i];
+                if (board[a] && board[a] === board[b] && board[a] === board[c]) {
+                    gameActive = false;
+                    return true;
+                }
+            }
+            return false;
+        }
+
+        /**
+         * Verifica se houve empate
+         * @returns {boolean} True se for empate, false caso contrário.
+         */
+        function checkDraw() {
+            return !board.includes("");
+        }
+        
+        /**
+         * Atualiza a mensagem de status do jogo.
+         * @param {string} message - A mensagem a ser exibida.
+         */
+        function updateStatus(message) {
+            statusDisplay.textContent = message;
+        }
+
+        /**
+         * Exibe a mensagem de desafio quando o jogador perde.
+         */
+        function showChallenge(winner) {
+            if (winner === "O") { // Apenas se o Computador (O) vencer
+                const randomIndex = Math.floor(Math.random() * CHALLENGES.length);
+                challengeText.textContent = CHALLENGES[randomIndex];
+                challengeModal.style.display = 'flex';
+            }
+        }
+        
+        /**
+         * Fecha o modal de desafio
+         */
+        window.closeChallengeModal = function() {
+            challengeModal.style.display = 'none';
+        }
+
+        /**
+         * Lógica de jogada do computador (O).
+         */
+        function computerMove() {
+            if (!gameActive) return;
+
+            // 1. Tenta vencer
+            for (let i = 0; i < winningConditions.length; i++) {
+                const [a, b, c] = winningConditions[i];
+                if (board[a] === "O" && board[b] === "O" && board[c] === "") return playMove(c);
+                if (board[a] === "O" && board[c] === "O" && board[b] === "") return playMove(b);
+                if (board[b] === "O" && board[c] === "O" && board[a] === "") return playMove(a);
+            }
+
+            // 2. Tenta bloquear o jogador (X)
+            for (let i = 0; i < winningConditions.length; i++) {
+                const [a, b, c] = winningConditions[i];
+                if (board[a] === "X" && board[b] === "X" && board[c] === "") return playMove(c);
+                if (board[a] === "X" && board[c] === "X" && board[b] === "") return playMove(b);
+                if (board[b] === "X" && board[c] === "X" && board[a] === "") return playMove(a);
+            }
+            
+            // 3. Joga no centro se estiver vazio
+            if (board[4] === "") return playMove(4);
+
+            // 4. Joga em um canto aleatório
+            const corners = [0, 2, 6, 8].filter(index => board[index] === "");
+            if (corners.length > 0) return playMove(corners[Math.floor(Math.random() * corners.length)]);
+            
+            // 5. Joga aleatoriamente em qualquer lugar vazio
+            const availableMoves = board.map((val, index) => val === "" ? index : null).filter(val => val !== null);
+            if (availableMoves.length > 0) {
+                const moveIndex = availableMoves[Math.floor(Math.random() * availableMoves.length)];
+                return playMove(moveIndex);
+            }
+        }
+        
+        /**
+         * Executa a jogada na célula fornecida e verifica o estado do jogo.
+         * @param {number} index - O índice da célula a ser jogada.
+         */
+        function playMove(index) {
+            if (board[index] !== "" || !gameActive) return;
+            
+            board[index] = currentPlayer;
+            cells[index].textContent = currentPlayer;
+            cells[index].classList.add(currentPlayer.toLowerCase());
+
+            if (checkWin()) {
+                updateStatus(currentPlayer === "X" ? "VOCÊ VENCEU! 🎉" : "O COMPUTADOR VENCEU! 🤖");
+                showChallenge(currentPlayer);
+                return;
+            }
+
+            if (checkDraw()) {
+                updateStatus("EMPATE! 🤝");
+                gameActive = false;
+                return;
+            }
+
+            // Troca o jogador
+            currentPlayer = currentPlayer === "X" ? "O" : "X";
+            updateStatus(currentPlayer === "X" ? "Sua vez (X)" : "Vez do Computador (O)...");
+
+            // Se for a vez do computador, chama a jogada dele após um pequeno delay
+            if (currentPlayer === "O") {
+                setTimeout(computerMove, 500); 
+            }
+        }
+
+
+        /**
+         * Lida com o clique do jogador.
+         * @param {Event} event - O evento de clique.
+         */
+        function handleCellClick(event) {
+            const clickedCell = event.target;
+            const clickedCellIndex = parseInt(clickedCell.getAttribute('data-index'));
+
+            if (board[clickedCellIndex] !== "" || !gameActive || currentPlayer === "O") {
+                return;
+            }
+            
+            playMove(clickedCellIndex);
+        }
+
+        /**
+         * Reinicia o estado do jogo.
+         */
+        function resetGame() {
+            board = ["", "", "", "", "", "", "", "", ""];
+            gameActive = true;
+            currentPlayer = "X";
+            updateStatus("Sua vez (X)");
+            
+            cells.forEach(cell => {
+                cell.textContent = "";
+                cell.classList.remove("x", "o");
+            });
+
+            // Garante que o modal de desafio esteja fechado ao reiniciar
+            closeChallengeModal();
+        }
+
+
+        // --- EVENT LISTENERS E INICIALIZAÇÃO ---
+        
+        // 1. Contagem Regressiva e Barra de Progresso
+        const countdownFunction = setInterval(updateTimeDisplay, 1000);
+
+        // 2. Conteúdo Dinâmico
+        updateDynamicContent();
+        setInterval(updateDynamicContent, 43200000); // Atualiza a cada 12 horas
+
+        // 3. Jogo da Velha
+        document.addEventListener('DOMContentLoaded', () => {
+             document.body.style.fontFamily = 'Inter, sans-serif';
+             updateTimeDisplay(); // Garante que a contagem e a barra iniciam imediatamente
+
+             // Adiciona listeners para as células do jogo
+             cells.forEach(cell => cell.addEventListener('click', handleCellClick));
+             // Adiciona listener para o botão de reset
+             document.getElementById("reset-button").addEventListener('click', resetGame);
+             
+             resetGame(); // Inicializa o jogo
+        });
+
+    </script>
+</body>
+</html>
