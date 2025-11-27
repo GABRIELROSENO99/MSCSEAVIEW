@@ -33,9 +33,9 @@
         }
         /* Ajuste para o conteúdo do roteiro não ser centralizado verticalmente */
         #roteiro-content {
-             text-align: left;
-             justify-content: flex-start; /* Alinha o conteúdo ao topo, se houver espaço */
-             align-items: flex-start;
+            text-align: left;
+            justify-content: flex-start; /* Alinha o conteúdo ao topo, se houver espaço */
+            align-items: flex-start;
         }
         /* --- Estilos do Jogo da Velha --- */
         #game-board {
@@ -98,16 +98,16 @@
             100% { transform: scale(1); opacity: 1; }
         }
         
-        /* --- ESTILO DA BORDA NÁUTICA LISTRADA --- */
+        /* --- ESTILO DA BORDA NÁUTICA LISTRADA ATUALIZADA --- */
         .nautical-stripes-border {
             /* Espessura da borda */
             border: 12px solid transparent; 
-            /* Gradiente para as listras Vermelho, Branco e Azul a 45 graus */
+            /* Gradiente para as listras: Azul Náutico Escuro (#002b5c), Branco e Azul Claro */
             border-image: repeating-linear-gradient(
                 45deg,
-                #ff0000 0, #ff0000 12px,      /* Listra Vermelha */
-                #ffffff 12px, #ffffff 24px,    /* Listra Branca */
-                #0055aa 24px, #0055aa 36px     /* Listra Azul (um pouco mais claro que o fundo) */
+                #002b5c 0, #002b5c 12px,      /* Listra AZUL NÁUTICO ESCURO (Substituindo o Vermelho) */
+                #ffffff 12px, #ffffff 24px,     /* Listra Branca */
+                #0055aa 24px, #0055aa 36px      /* Listra Azul */
             ) 1; 
             /* Ajustando o padding interno para acomodar a borda */
             padding: 1rem; 
@@ -269,7 +269,7 @@
             'O **MSC Seaview** foi lançado em junho de 2018 e pertence à **Classe Seaside**, com design inovador projetado para se aproximar do mar.',
             'Seu lema de design é "o navio que segue o sol" (The Ship that Follows the Sun), ideal para o clima quente da sua rota.',
             'O navio possui impressionantes **323 metros de comprimento** e cerca de 41 metros de boca (largura).',
-            'Sua altura é de aproximadamente **72 metros** (o equivalente a um prédio de 23 andares) e ele tem **20 decks** (andares).',
+            'Sua altura é de aproximadamente **72 metros** (o equivalente a um prédio de 23 andares) e ele tem **20 decks** (an dares).',
             'O **MSC Seaview** tem capacidade para mais de **5.300 passageiros** e conta com uma tripulação de mais de 1.400 pessoas.',
             'Um dos grandes destaques é o **Waterfront Boardwalk**, um calçadão no deck 8 que circunda 360 graus do navio com vista para o mar.',
             'A aventura está garantida com **duas tirolesas de 105 metros** de comprimento que cruzam a piscina principal!',
