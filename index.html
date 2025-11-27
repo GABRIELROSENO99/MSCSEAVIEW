@@ -562,7 +562,7 @@
             cells[index].classList.add(currentPlayer.toLowerCase());
 
             if (checkWin()) {
-                updateStatus(currentPlayer === "X" ? "VOCÊ VENCEU! 🎉" : "O COMPUTADOR VENCEU! 🤖");
+                updateStatus(currentPlayer === "X" ? "VOCÊ VENCEU! 🎉" : "VOCË PERDEU! 🤖");
                 showChallenge(currentPlayer); // Mostra desafio se 'O' (computador) vencer
                 return;
             }
@@ -575,7 +575,7 @@
 
             // Passa o turno
             currentPlayer = currentPlayer === "X" ? "O" : "X";
-            updateStatus(currentPlayer === "X" ? "Sua vez (X)" : "Vez do Computador (O)...");
+            updateStatus(currentPlayer === "X" ? "Sua vez (X)" : "Minha vez (O)...");
 
             // Se for a vez do computador, executa o movimento após um pequeno atraso
             if (currentPlayer === "O") {
